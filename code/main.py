@@ -34,7 +34,7 @@ def main(argv):
                             Compartiment6,Compartiment7,Compartiment8, KennedyTunnel, LiefkensHoekTunnel]
 
     # 1 timestep is a minute
-    time = list(range(150))
+    time = list(range(300))
     for t in time:
 
         print("Timestep", t)
@@ -44,7 +44,7 @@ def main(argv):
         Compartiment1.simulateCounterClockwise(Beveren.getVehicles(False)+Compartiment8.getFlow(False))
 
         # Compartiment 2
-        Compartiment2.simulateClockwise(KennedyTunnel.getFlow(True))
+        Compartiment2.simulateClockwise(KennedyTunnel.getFlow(True, 1))
         Compartiment2.simulateCounterClockwise(AntwerpWest.getVehicles(False))
 
         # Kennedy tunnel
@@ -53,7 +53,7 @@ def main(argv):
 
         # Compartiment 3
         Compartiment3.simulateClockwise(AntwerpSouth.getVehicles(True)+ Compartiment4.getFlow(True))
-        Compartiment3.simulateCounterClockwise(KennedyTunnel.getFlow(False))
+        Compartiment3.simulateCounterClockwise(KennedyTunnel.getFlow(False, 1))
 
         # Compartiment 4
         Compartiment4.simulateClockwise(AntwerpEast.getVehicles(True) + Compartiment5.getFlow(True))
@@ -68,7 +68,7 @@ def main(argv):
         Compartiment6.simulateCounterClockwise(AntwerpNorth.getVehicles(False) + Compartiment5.getFlow(False))
 
         # Compartiment 7
-        Compartiment7.simulateClockwise(LiefkensHoekTunnel.getFlow(True))
+        Compartiment7.simulateClockwise(LiefkensHoekTunnel.getFlow(True, 1))
         Compartiment7.simulateCounterClockwise(AntwerpPort.getVehicles(False) + Compartiment6.getFlow(False))
 
         # Liefkenshoektunnel
@@ -77,10 +77,10 @@ def main(argv):
 
         # Compartiment 8
         Compartiment8.simulateClockwise(Beveren.getVehicles(True)+ Compartiment1.getFlow(True))
-        Compartiment8.simulateCounterClockwise(LiefkensHoekTunnel.getFlow(False))
+        Compartiment8.simulateCounterClockwise(LiefkensHoekTunnel.getFlow(False, 1))
 
     for compartiment in compartimentsList:
-        outputToFile(compartiment.getName(True),compartiment.getData(True), time)
+        outputToFile(compartiment.getName(True), compartiment.getData(True), time)
         outputToFile(compartiment.getName(False), compartiment.getData(False), time)
 
 if __name__ == '__main__':
