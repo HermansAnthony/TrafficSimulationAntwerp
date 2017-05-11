@@ -10,4 +10,4 @@ University of Antwerp
 - Pycharm
 - Python
 - PlotUtils
-
+- LaTeX
