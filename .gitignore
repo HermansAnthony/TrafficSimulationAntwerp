@@ -1,8 +1,8 @@
-.idea
-.DS_Store
+*.idea
+*.DS_Store
 __pychache__/*
 *.aux
 *.log
 *.synctex
-.dat
+*.dat
 code/__pychache/*
