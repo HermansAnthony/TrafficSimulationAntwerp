@@ -1,5 +1,6 @@
-\documentclass[12pt]{article}
+\documentclass[12pt,a4paper]{report}
 \usepackage{graphicx}
+\renewcommand{\thesection}{\arabic{section}}
 \begin{document}
 
 %====[Titel pagina]=====
@@ -54,6 +55,67 @@ Charlie \textsc{Beirnaert}
 
 \end{titlepage}
 
+%===============
+%	Inhoudstabel
+%===============
 
+\renewcommand{\contentsname}{Inhoud}
+\tableofcontents
+\newpage
+
+%===============
+%	Introductie
+%===============
+
+\section*{Introductie}\addcontentsline{toc}{chapter}{Introductie}
+Als verder onderzoek voor het vak Computationele Biologie heb ik gekozen voor het onderwerp "Verkeersinfarct Antwerpen".
+Dit houdt grotendeels in dat ik de ring van Antwerpen heb verdeeld in verschillende compartimenten. 
+Met de bekomen compartimenten heb ik dan verschillende simulaties gedaan afhankelijk van verschillende parameters zoals:
+\begin{itemize}
+\item Daluren (10u-15u)
+\item Spitsuren (TODO)
+\item TODO
+\end{itemize}
+Het algemene verloop van het project zelf is onder te verdelen in de volgende stappen:
+\begin{enumerate}  
+\item Vinden van data 
+\item Verwerking van de data
+\item Opstellen van het compartimenteel model
+\item Simuleren van verschillende situaties
+\end{enumerate}
+\newpage
+
+%==================
+%	Vinden van data
+%==================
+\section*{Werkwijze}\addcontentsline{toc}{chapter}{Werkwijze}
+\section{Vinden van data}
+Deze stap houdt in om realistische verhoudingen te verkrijgen voor de verkeersdrukte op de Antwerpse ring en de verschillende knooppunten zoals E19, E313 enzovoort.Deze data heb ik kunnen vinden aan de hand van een studie op de volgende site~\cite{studie}.Bij deze studie wordt het aantal voertuigen op de verschillende knooppunten van de Antwerpse ring nauwkeurig in kaart gebracht.
+
+%======================
+%	Verwerking van de data
+%======================
+\newpage
+\section{Verwerking van de data}
+
+%===================================
+%	Opstellen van het compartimenteel model
+%===================================
+\newpage
+\section{Opstellen van het compartimenteel model}
+
+%===================================
+%	Simuleren van verschillende situaties
+%===================================
+\newpage
+\section{Simuleren van verschillende situaties}
+
+
+%==================
+%	Bibliografie
+%==================
+\renewcommand{\bibname}{Bibliografie}
+\bibliographystyle{plain}
+\bibliography{biblio}\addcontentsline{toc}{chapter}{Bibliografie}
 
 \end{document}
