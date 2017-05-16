@@ -1,5 +1,10 @@
 \documentclass[12pt,a4paper]{report}
 \usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{float}
+ \usepackage{url}
 \renewcommand{\thesection}{\arabic{section}}
 \begin{document}
 
@@ -51,7 +56,7 @@ Charlie \textsc{Beirnaert}
 %		Logo
 %===================
 
-\includegraphics{logo.jpg}\\[1cm]
+\includegraphics{images/logo.jpg}\\[1cm]
 
 \end{titlepage}
 
@@ -90,20 +95,168 @@ Het algemene verloop van het project zelf is onder te verdelen in de volgende st
 %==================
 \section*{Werkwijze}\addcontentsline{toc}{chapter}{Werkwijze}
 \section{Vinden van data}
-Deze stap houdt in om realistische verhoudingen te verkrijgen voor de verkeersdrukte op de Antwerpse ring en de verschillende knooppunten zoals E19, E313 enzovoort.Deze data heb ik kunnen vinden aan de hand van een studie op de volgende site~\cite{studie}.Bij deze studie wordt het aantal voertuigen op de verschillende knooppunten van de Antwerpse ring nauwkeurig in kaart gebracht.
+Deze stap houdt in om realistische verhoudingen te verkrijgen voor de verkeersdrukte op de Antwerpse ring en de verschillende knooppunten zoals E19, E313 enzovoort.
+Deze data heb ik kunnen vinden aan de hand van een studie op de site \url{http://www.verkeerscentrum.be/}~\cite{studie}.
+Bij deze studie wordt het aantal voertuigen op de verschillende knooppunten van de Antwerpse ring nauwkeurig in kaart gebracht.
+Voor mijn onderzoek heb ik gebruik gemaakt van de gegevens met betrekking tot de PWE (personenwagen-equivalenten).
+
+% Afbeelding van de ring
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{images/ring}
+  \caption{Antwerpse ring~\cite{maps}}
+  \label{fig:ring}
+\end{figure}
 
 %======================
 %	Verwerking van de data
 %======================
 \newpage
-\section{Verwerking van de data}
+\section{Dataverwerking}
+\subsection{Verdeling in compartimenten}
+Als eerste stap heb ik de Antwerpse ring verdeeld in een aantal compartimenten namelijk:
+\begin{enumerate}
+\item Beveren $\Leftrightarrow$ Antwerpen-West
+\item Antwerpen-West $\Leftrightarrow$ Kennedytunnel
+\item Kennedytunnel $\Leftrightarrow$ Antwerpen-Zuid
+\item Antwerpen-Zuid $\Leftrightarrow$ Antwerpen-Oost
+\item Antwerpen-Oost $\Leftrightarrow$ Antwerpen-Noord
+\item Antwerpen-Noord $\Leftrightarrow$ Antwerpen-Haven
+\item Antwerpen-Haven $\Leftrightarrow$ Liefkenshoektunnel
+\item Liefkenshoektunnel $\Leftrightarrow$ Beveren
+\end{enumerate}
+
+% Afbeelding van de compartimenten
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/compartiments}
+  \caption{Compartimenten Antwerpse ring}
+  \label{fig:compartimenten}
+\end{figure}
+
+\newpage
+\subsection{Berekenen capaciteiten}
+Vervolgens was het noodzakelijk om de capaciteiten van elk compartiment te berekenen.
+Voor deze berekening had ik nog een extra gegeven nodig namelijk de gemiddelde lengte van een PWE.
+In de studie is te vinden dat een PWE bestaat uit 1 deel niet-vrachtverkeer en 2 delen vrachtverkeer.
+De gemiddelde lengte van niet-vrachtverkeer (lees auto's en soortgelijke) is +- 3,83 meter. 
+Voor het vrachtverkeer heb ik een gemiddelde genomen van de minimum en maximum lengte.
+Dus voor de gemiddelde PWE-lengte heb ik de volgende formule opgesteld:
+% Berekening gemiddelde lengte PWE
+\begin{equation}
+\frac{(1 \times 3.83) + (2 \times \cfrac{6.9+18.75}{2})}{3} = 9.8267
+\end{equation} 
+Naast deze gemiddelde lengte had ik ook de lengte van het compartiment zelf nodig.
+Hiervoor heb ik gebruik gemaakt van Google Maps~\cite{maps}.
+Bovendien moest er ook rekening gehouden worden met het aantal rijstroken per compartiment. Deze heb ik kunnen bepalen met behulp van StreetView~\cite{maps}.
+Hieronder vind je de capaciteiten per compartiment:
+\begin{enumerate}
+\item Beveren $\Leftrightarrow$ Antwerpen-West: 1878 PWE
+\item Antwerpen-West $\Leftrightarrow$ Kennedytunnel: 456 PWE
+\item Kennedytunnel $\Leftrightarrow$ Antwerpen-Zuid: 977 PWE
+\item Antwerpen-Zuid $\Leftrightarrow$ Antwerpen-Oost: 1252 PWE
+\item Antwerpen-Oost $\Leftrightarrow$ Antwerpen-Noord: 2239 PWE
+\item Antwerpen-Noord $\Leftrightarrow$ Antwerpen-Haven: 2300 PWE
+\item Antwerpen-Haven $\Leftrightarrow$ Liefkenshoektunnel: 814 PWE
+\item Liefkenshoektunnel $\Leftrightarrow$ Beveren: 1404 PWE
+\item Liefkenshoektunnel: 280 PWE
+\item Kennedytunnel: 180 PWE
+\end{enumerate}
+\subsection{Berekenen rates}
+Tenslotte moest ik nog de rates berekenen.
+In de studie staat duidelijk opgelijst hoeveel PWE er in elke richting vertrekken vanuit een bepaald knooppunt (Beveren, Antwerpen-Oost etc.).
+Deze tellingen gebeuren in een gespecifieerde tijdsperiode namelijk:
+\begin{itemize}
+\item Daluren (10u-15u)
+\item Spitsuren (7u-9u / 16u-18u)
+\end{itemize}
+Voor de rates heb ik eerst de daluren gebruikt om te zien of mijn simulatie zou kloppen. 
+Dit was voornamelijk om te zien of er niet direct files zouden ontstaan ($\rightarrow$ vollopen van de compartimenten).
+Na deze berekeningen kon ik het volgende model opstellen (zie figuur \ref{fig:compleet}):
+\begin{figure}[H]
+	\centering
+  	\includegraphics[width=1\linewidth]{images/withrates}
+  	\caption{Antwerpse ring met bijhorende data}
+  	\label{fig:compleet}
+\end{figure}
 
 %===================================
 %	Opstellen van het compartimenteel model
 %===================================
 \newpage
 \section{Opstellen van het compartimenteel model}
+\subsection{Veronderstellingen}
+Voor het opstellen van het model heb ik een aantal veronderstellingen gemaakt:
+\begin{itemize}
+\item Verkeer verlaat de ring volgens het Paretoprincipe (zie subsectie \ref{PP})
+\item Elk voertuig heeft een snelheid van 100 km/h (tenzij in geval van file)
+\item Elk voertuig legt de afstand van het desbetreffende compartiment af alvorens naar het volgende te gaan (voertuig = individu)
+\item	Flow naar een volgend compartiment gebeurt volgens de formule:
+\begin{equation}\label{eq}
+1- \bigg[\frac{huidige \, capaciteit_{volgend\,compartiment}}{maximum\,capaciteit_{volgend\, compartiment}}\bigg]^{exponent \,(zie \,\ref{exp})}
+\end{equation} 
+\end{itemize}
 
+\subsection{Bepalen van de passende exponent}\label{exp}
+De flow naar het volgende compartiment hangt sterk af van de exponent in vergelijking \ref{eq}. 
+De flow/rate moet pas zo laat zo mogelijk klein worden om vlot verkeer te garanderen.
+Vanwege deze reden heb ik verder onderzoek gedaan naar de meeste geschikte exponent. Hierbij heb ik gebruik gemaakt van WolframAlpha~\cite{wolfram}.
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/exponent4}
+    \caption{Exponent = 4}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/exponent8}
+    \caption{Exponent = 8}
+  \end{minipage}
+\end{figure}
+\noindent
+Uit bovenstaande grafieken blijkt dat exponent 8 pas serieus daalt als het volgende compartiment 75\% gevuld is.
+Dit is dus beter om flows te krijgen die pas laat dalen $\rightarrow$ vlotter verkeer.
+
+%============
+%	Pareto 
+%============
+\subsection{Pareto Principe}\label{PP}
+Het Paretoprincipe~\cite{pareto} (ook de 80-20 regel genoemd) was oorspronkelijk een economische regel maar past ook goed in dit onderzoek. 
+Deze regel houdt in dat 80\% van de uitkomsten verklaard wordt door 20\% van de oorzaken. 
+Concreet heb ik dit principe gebruikt om de rates te bepalen van de voertuigen die de ring verlaten.
+Zo heb ik verondersteld dat 80\% van het totaal verkeer gaat naar de volgende drie richtingen:
+\begin{itemize}
+\item Brussel
+\item Gent
+\item Nederland
+\end{itemize}
+De overige 20\% wordt verdeeld tussen de andere richtingen zoals:
+\begin{itemize}
+\item Wommelgem
+\item Haven
+\item Beveren
+\end{itemize}
+\newpage
+De verdeling van de 80\% gebeurt als volgt(rekening houdende met de inkomende rates aangezien hierover data beschikbaar is~\cite{studie}): 
+\begin{itemize}
+\item Totaal inkomende rates (Brussel - Gent - Nederland): 199,85 PWE/min
+\item Brussel(Antwerpen-Zuid): 58,27 PWE/min
+\begin{equation} \frac{58.27}{199.85} = 0.292 \times 0.80 = 0.234 \end{equation} 
+\item Gent(Antwerpen-West): 75,8 PWE/min
+\begin{equation} \frac{75.8}{199.85} = 0.379 \times 0.80 = 0.303 \end{equation} 
+\item Nederland(Antwerpen-Noord): 65,78 PWE/min
+\begin{equation} \frac{65.78}{199.85} = 0.329 \times 0.80 = 0.263\end{equation} 
+\end{itemize}
+De verdeling van de 20\% gebeurt analoog aan die van 80\%: 
+\begin{itemize}
+\item Totaal inkomende rates (Beveren - Wommelgem - Haven): 130,33 PWE/min
+\item Beveren:  27,69 PWE/min
+\begin{equation} \frac{27.69}{130.33} = 0.213 \times 0.20 = 0.043 \end{equation} 
+\item Wommelgem(Antwerpen-Oost): 80,99 PWE/min
+\begin{equation} \frac{80.99}{130.33} = 0.621 \times 0.20 = 0.124 \end{equation} 
+\item Haven(Antwerpen-Haven): 21,65 PWE/min
+\begin{equation} \frac{21.65}{130.33} =  0.166 \times 0.20 = 0.033\end{equation} 
+\end{itemize}
 %===================================
 %	Simuleren van verschillende situaties
 %===================================
