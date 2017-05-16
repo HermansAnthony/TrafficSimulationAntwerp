@@ -40,44 +40,44 @@ def main(argv):
         print("Timestep", t)
 
         # Compartiment 1
-        Compartiment1.simulateClockwise(AntwerpWest.getVehicles(True)+Compartiment2.getFlow(True, 0.697))
-        Compartiment1.simulateCounterClockwise(Beveren.getVehicles(False)+Compartiment8.getFlow(False, 0.957))
+        Compartiment1.simulateClockwise(AntwerpWest.getVehicles(True)+Compartiment2.getFlow(True, 0.303))
+        Compartiment1.simulateCounterClockwise(Beveren.getVehicles(False)+Compartiment8.getFlow(False, 0.043))
 
         # Compartiment 2
-        Compartiment2.simulateClockwise(KennedyTunnel.getFlow(True, 1))
+        Compartiment2.simulateClockwise(KennedyTunnel.getFlow(True, 0))
         Compartiment2.simulateCounterClockwise(AntwerpWest.getVehicles(False))
 
         # Kennedy tunnel
-        KennedyTunnel.simulateClockwise(Compartiment3.getFlow(True, 1))
-        KennedyTunnel.simulateCounterClockwise(Compartiment2.getFlow(False, 1))
+        KennedyTunnel.simulateClockwise(Compartiment3.getFlow(True, 0))
+        KennedyTunnel.simulateCounterClockwise(Compartiment2.getFlow(False, 0))
 
         # Compartiment 3
-        Compartiment3.simulateClockwise(AntwerpSouth.getVehicles(True)+ Compartiment4.getFlow(True, 0.766))
-        Compartiment3.simulateCounterClockwise(KennedyTunnel.getFlow(False, 1))
+        Compartiment3.simulateClockwise(AntwerpSouth.getVehicles(True)+ Compartiment4.getFlow(True, 0.234))
+        Compartiment3.simulateCounterClockwise(KennedyTunnel.getFlow(False, 0))
 
         # Compartiment 4
-        Compartiment4.simulateClockwise(AntwerpEast.getVehicles(True) + Compartiment5.getFlow(True, 0.876))
-        Compartiment4.simulateCounterClockwise(AntwerpSouth.getVehicles(False) + Compartiment3.getFlow(False, 0.766))
+        Compartiment4.simulateClockwise(AntwerpEast.getVehicles(True) + Compartiment5.getFlow(True, 0.124))
+        Compartiment4.simulateCounterClockwise(AntwerpSouth.getVehicles(False) + Compartiment3.getFlow(False, 0.234))
 
         # Compartiment 5
-        Compartiment5.simulateClockwise(AntwerpNorth.getVehicles(True) + Compartiment6.getFlow(True, 0.737))
-        Compartiment5.simulateCounterClockwise(AntwerpEast.getVehicles(False) + Compartiment4.getFlow(False, 0.876))
+        Compartiment5.simulateClockwise(AntwerpNorth.getVehicles(True) + Compartiment6.getFlow(True, 0.263))
+        Compartiment5.simulateCounterClockwise(AntwerpEast.getVehicles(False) + Compartiment4.getFlow(False, 0.124))
 
         # Compartiment 6
-        Compartiment6.simulateClockwise(AntwerpPort.getVehicles(True) + Compartiment7.getFlow(True, 0.967))
-        Compartiment6.simulateCounterClockwise(AntwerpNorth.getVehicles(False) + Compartiment5.getFlow(False, 0.737))
+        Compartiment6.simulateClockwise(AntwerpPort.getVehicles(True) + Compartiment7.getFlow(True, 0.033))
+        Compartiment6.simulateCounterClockwise(AntwerpNorth.getVehicles(False) + Compartiment5.getFlow(False, 0.263))
 
         # Compartiment 7
-        Compartiment7.simulateClockwise(LiefkensHoekTunnel.getFlow(True, 1))
-        Compartiment7.simulateCounterClockwise(AntwerpPort.getVehicles(False) + Compartiment6.getFlow(False, 0.967))
+        Compartiment7.simulateClockwise(LiefkensHoekTunnel.getFlow(True, 0))
+        Compartiment7.simulateCounterClockwise(AntwerpPort.getVehicles(False) + Compartiment6.getFlow(False, 0.033))
 
         # Liefkenshoektunnel
-        LiefkensHoekTunnel.simulateClockwise(Compartiment8.getFlow(True, 1))
-        LiefkensHoekTunnel.simulateCounterClockwise(Compartiment7.getFlow(False, 1))
+        LiefkensHoekTunnel.simulateClockwise(Compartiment8.getFlow(True, 0))
+        LiefkensHoekTunnel.simulateCounterClockwise(Compartiment7.getFlow(False, 0))
 
         # Compartiment 8
-        Compartiment8.simulateClockwise(Beveren.getVehicles(True)+ Compartiment1.getFlow(True, 0.957))
-        Compartiment8.simulateCounterClockwise(LiefkensHoekTunnel.getFlow(False, 1))
+        Compartiment8.simulateClockwise(Beveren.getVehicles(True)+ Compartiment1.getFlow(True, 0.043))
+        Compartiment8.simulateCounterClockwise(LiefkensHoekTunnel.getFlow(False, 0))
 
     for compartiment in compartimentsList:
         outputToFile(compartiment.getName(True), compartiment.getData(True), time)

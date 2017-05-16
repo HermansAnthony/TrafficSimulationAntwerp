@@ -58,9 +58,9 @@ class Compartiment:
         if clockwise: return self.dataClockwise
         return self.dataCounterClockwise
 
-    def getFlow(self, clockwise, ratio=0.6):
-        if clockwise: return ratio*self.reachedNextCompartimentClockwise
-        return ratio*self.reachedNextCompartimentCounterClockwise
+    def getFlow(self, clockwise, ratio):
+        if clockwise: return (1-ratio)*self.reachedNextCompartimentClockwise
+        return (1-ratio)*self.reachedNextCompartimentCounterClockwise
 
     def simulateClockwise(self, vehicles):
         if len(self.capacityClockwise) >= self.maxCapacity: print("Traffic congestion in the clockwise direction @ compartiment {0}".format(str(self.name)))
