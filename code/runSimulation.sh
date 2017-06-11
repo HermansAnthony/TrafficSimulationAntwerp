@@ -1,5 +1,8 @@
 mkdir -p graphs
+mkdir -p data
 folder="graphs/"
+
+python3 main.py
 
 for file in data/*.dat
 do
@@ -9,5 +12,3 @@ do
   outputPNG=$folder$filename".png"
   graph -T png $file > $outputPNG
 done
-
-rm -rf data/*

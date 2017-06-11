@@ -1,10 +1,12 @@
 \documentclass[12pt,a4paper]{report}
 \usepackage{graphicx}
+\usepackage{subfigure}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{float}
- \usepackage{url}
+\usepackage{url}
+\usepackage[dutch]{babel}
 \renewcommand{\thesection}{\arabic{section}}
 \begin{document}
 
@@ -75,18 +77,18 @@ Charlie \textsc{Beirnaert}
 \section*{Introductie}\addcontentsline{toc}{chapter}{Introductie}
 Als verder onderzoek voor het vak Computationele Biologie heb ik gekozen voor het onderwerp "Verkeersinfarct Antwerpen".
 Dit houdt grotendeels in dat ik de ring van Antwerpen heb verdeeld in verschillende compartimenten. 
-Met de bekomen compartimenten heb ik dan verschillende simulaties gedaan afhankelijk van verschillende parameters zoals:
+Met de bekomen compartimenten heb ik dan simulaties gedaan afhankelijk van verschillende parameters zoals:
 \begin{itemize}
-\item Daluren (10u-15u)
-\item Spitsuren (TODO)
-\item TODO
+\item Daluren (10u-15u, Liefkenshoektunnel betalend)
+\item Ochtendspits (6u30-8u30, Liefkenshoektunnel tolvrij in naperiode)
+\item Avondspits (15u30-17u30, Liefkenshoektunnel tolvrij in naperiode)
 \end{itemize}
 Het algemene verloop van het project zelf is onder te verdelen in de volgende stappen:
 \begin{enumerate}  
 \item Vinden van data 
 \item Verwerking van de data
 \item Opstellen van het compartimenteel model
-\item Simuleren van verschillende situaties
+\item Verschillende simulaties
 \end{enumerate}
 \newpage
 
@@ -96,7 +98,7 @@ Het algemene verloop van het project zelf is onder te verdelen in de volgende st
 \section*{Werkwijze}\addcontentsline{toc}{chapter}{Werkwijze}
 \section{Vinden van data}
 Deze stap houdt in om realistische verhoudingen te verkrijgen voor de verkeersdrukte op de Antwerpse ring en de verschillende knooppunten zoals E19, E313 enzovoort.
-Deze data heb ik kunnen vinden aan de hand van een studie op de site \url{http://www.verkeerscentrum.be/}~\cite{studie}.
+De data heb ik kunnen vinden aan de hand van een studie op de site \url{http://www.verkeerscentrum.be/}~\cite{studie}.
 Bij deze studie wordt het aantal voertuigen op de verschillende knooppunten van de Antwerpse ring nauwkeurig in kaart gebracht.
 Voor mijn onderzoek heb ik gebruik gemaakt van de gegevens met betrekking tot de PWE (personenwagen-equivalenten).
 
@@ -139,7 +141,7 @@ Als eerste stap heb ik de Antwerpse ring verdeeld in een aantal compartimenten n
 Vervolgens was het noodzakelijk om de capaciteiten van elk compartiment te berekenen.
 Voor deze berekening had ik nog een extra gegeven nodig namelijk de gemiddelde lengte van een PWE.
 In de studie is te vinden dat een PWE bestaat uit 1 deel niet-vrachtverkeer en 2 delen vrachtverkeer.
-De gemiddelde lengte van niet-vrachtverkeer (lees auto's en soortgelijke) is +- 3,83 meter. 
+De gemiddelde lengte van niet-vrachtverkeer (auto's en soortgelijke) is +- 3,83 meter. 
 Voor het vrachtverkeer heb ik een gemiddelde genomen van de minimum en maximum lengte.
 Dus voor de gemiddelde PWE-lengte heb ik de volgende formule opgesteld:
 % Berekening gemiddelde lengte PWE
@@ -168,7 +170,7 @@ In de studie staat duidelijk opgelijst hoeveel PWE er in elke richting vertrekke
 Deze tellingen gebeuren in een gespecifieerde tijdsperiode namelijk:
 \begin{itemize}
 \item Daluren (10u-15u)
-\item Spitsuren (7u-9u / 16u-18u)
+\item Ochtendspits (6u30-8u30)
 \end{itemize}
 Voor de rates heb ik eerst de daluren gebruikt om te zien of mijn simulatie zou kloppen. 
 Dit was voornamelijk om te zien of er niet direct files zouden ontstaan ($\rightarrow$ vollopen van de compartimenten).
@@ -237,7 +239,7 @@ De overige 20\% wordt verdeeld tussen de andere richtingen zoals:
 \item Beveren
 \end{itemize}
 \newpage
-De verdeling van de 80\% gebeurt als volgt(rekening houdende met de inkomende rates aangezien hierover data beschikbaar is~\cite{studie}): 
+De verdeling van de 80\% gebeurt als volgt (rekening houdende met de inkomende rates van de studie~\cite{studie}): 
 \begin{itemize}
 \item Totaal inkomende rates (Brussel - Gent - Nederland): 199,85 PWE/min
 \item Brussel(Antwerpen-Zuid): 58,27 PWE/min
@@ -261,7 +263,103 @@ De verdeling van de 20\% gebeurt analoog aan die van 80\%:
 %	Simuleren van verschillende situaties
 %===================================
 \newpage
-\section{Simuleren van verschillende situaties}
+\section{Verschillende simulaties}
+Deze sectie bevat een opsomming van de verschillende simulaties.
+\subsection{Daluren: 10u-15u}
+Deze sectie bevat de grafiek voor de bezetting van compartiment 1 en de Kennedytunnel tijdens de daluren.
+De y-as geeft het aantal PWE weer en de x-as geeft de minuten weer (0 = 10 uur s'morgens, 300 = 15 uur s'middags).
+\begin{figure}[H]
+     \begin{center}
+        \subfigure[Antwerpen West $\rightarrow$ Beveren]{%
+            \label{fig:1W}
+            \includegraphics[width=0.45\textwidth]{graphs/dal/1W.png}
+        }%
+        \subfigure[Beveren $\rightarrow$ Antwerpen West]{%
+           \label{fig:1TW}
+           \includegraphics[width=0.45\textwidth]{graphs/dal/1TW.png}
+        }\\ %  ------- Rij 1 ----------------------%
+        \subfigure[Kennedytunnel ($\rightarrow$ Antwerpen-West)]{%
+            \label{fig:KennedyTunnel1W}
+            \includegraphics[width=0.45\textwidth]{graphs/dal/KennedyTunnelW.png}
+        }%
+        \subfigure[Kennedytunnel ($\rightarrow$ Antwerpen-Zuid)]{%
+            \label{fig:KennedyTunnel1TW}
+            \includegraphics[width=0.45\textwidth]{graphs/dal/KennedyTunnelTW.png}
+        }
+    \end{center}
+    \caption{%
+        Bezetting van compartiment 1 en de Kennedytunnel tijdens daluren
+     }%
+   \label{fig:dalSimulatie}
+\end{figure}
+\newpage
+\noindent
+Ik heb de overige grafieken bewust uit het verslag gelaten aangezien het dan nogal onoverzichtelijk werd. Bovendien is figuur \ref{fig:dalSimulatie} een goede weergave van de andere compartimenten. 
+We zien bij de Kennedytunnel een soort van puls beweging (zie figuur \ref{fig:KennedyTunnel1W}). Dit komt door de invloed van de formule \ref{eq} (voorkomen dat files te snel ontstaan). 
+Daarnaast zien we bij de Kennedytunnel in de richting van Antwerpen-Zuid een meer constante bezetting (+- 59 PWE). 
+\\
+\\
+Het is overigens logisch dat bij daluren het verkeer vlot verloopt (normale omstandigheden) en dus bij geen enkel compartiment files ontstaan / de maximum capaciteit bereikt wordt.
+\newpage
+\subsection{Ochtendspits: 6u30-8u30}
+Zoals verwacht zullen er bij de ochtendspits wel files ontstaan. De simulatie van de daluren gaf al een vermoeden waar deze files hoofdzakelijk zouden ontstaan namelijk compartiment 3 (Antwerpen-Zuid $\rightarrow$ Kennedytunnel).\\ 
+\\
+We zien dus aan de hand van figuur \ref{fig:ochtendSimulatie} dat de Kennedytunnel zijn maximum capaciteit bereikt rond tijdstap 84-85 (rond 8 uur s'morgens).Hierdoor zal de formule \ref{eq} de waarde 0 krijgen waardoor er tijdelijk geen PWE worden toegelaten. Bij de volgende tijdstap is deze rate terug hoger (bezetting in tunnel is terug lager $\rightarrow$ doorstromend verkeer).  Als logisch gevolg zal compartiment 3 richting de Kennedytunnel ook beginnen vollopen (zie figuur \ref{fig:file1}).\\
+\\
+Daarnaast zien we ook dat bij compartiment 1 de bezetting is toegenomen maar er overigens geen file ontstaat.
+\begin{figure}[H]
+     \begin{center}
+        \subfigure[Antwerpen West $\rightarrow$ Beveren]{%
+            \label{fig:1W}
+            \includegraphics[width=0.45\textwidth]{graphs/ochtend/1W.png}
+        }%
+        \subfigure[Beveren $\rightarrow$ Antwerpen West]{%
+           \label{fig:1TW}
+           \includegraphics[width=0.45\textwidth]{graphs/ochtend/1TW.png}
+        }\\ %  ------- Rij 1 ----------------------%
+        \subfigure[Kennedytunnel ($\rightarrow$ Antwerpen-West)]{%
+            \label{fig:KennedyTunnel2W}
+            \includegraphics[width=0.45\textwidth]{graphs/ochtend/KennedyTunnelW.png}
+        }%
+        \subfigure[Kennedytunnel ($\rightarrow$ Antwerpen-Zuid)]{%
+            \label{fig:KennedyTunnel2TW}
+            \includegraphics[width=0.45\textwidth]{graphs/ochtend/KennedyTunnelTW.png}
+        }
+        \\ %  ------- Rij 2 ----------------------%
+        \subfigure[Antwerpen-Zuid ($\rightarrow$ Kennedytunnel)]{%
+            \label{fig:file1}
+            \includegraphics[width=0.45\textwidth]{graphs/ochtend/3W.png}
+        }%
+        \subfigure[Kennedytunnel ($\rightarrow$ Antwerpen-Zuid)]{%
+            \includegraphics[width=0.45\textwidth]{graphs/ochtend/3TW.png}
+        }
+
+    \end{center}
+    \caption{%
+        Bezetting van compartiment 1 en de Kennedytunnel tijdens de ochtendspits
+     }%
+   \label{fig:ochtendSimulatie}
+\end{figure}
+\newpage
+\subsection{Avondspits: 15u30-17u30}
+Bij de avondspits zou men logisch ook verwachten dat er files zijn. De simulatie toont echter aan dat er nergens file is. Dit kan liggen aan een aantal factoren (incorrecte data, weinig verkeer ten tijde van de studie ...).
+Indien je deze grafieken toch zelf zou willen bestuderen, kan je ze bekijken in de bijgeleverde map of de simulatie zelf runnen (zie \ref{manual}).
+
+\newpage
+\section{Opstarten van de simulatie}\label{manual}
+Om de simulatie op te starten, voer je het volgende commando uit in de Terminal:
+\begin{itemize}
+\item ./runSimulation.sh \footnote{het kan zijn dat je het script nog permissie moet geven via het commando chmod +x ./runSimulation.sh}
+\end{itemize}
+Dit script zal dan de simulatie runnen en de data map omzetten naar de desbetreffende grafieken in de graphs map.
+Bij het begin zal de simulatie vragen welke tijdsperiode gebruikt moet worden:
+\begin{enumerate}
+\item Daluren
+\item Ochtendspits
+\item Avondspits
+\end{enumerate}
+\noindent
+Het kan overigens zijn dat je plotutils moet downloaden om de grafieken te genereren (zie \url{https://www.gnu.org/software/plotutils/}). 
 
 
 %==================
