@@ -20,6 +20,8 @@ def main(argv):
     print("Option 1: 10h-15h (non peak) DEFAULT")
     print("Option 2: 6h30-8h30 (morning peak)")
     print("Option 3: 15h30-17h30 (evening peak)")
+    print("Option 4: 15h30-19h00 (hypothetical)")
+    print("Oosterweel (add _O to the above options)")
     option = input()
 
     # Initialisation of the 6 sources
@@ -45,8 +47,12 @@ def main(argv):
     compartimentsList = [Compartiment1, Compartiment2, Compartiment3, Compartiment4, Compartiment5, \
                          Compartiment6, Compartiment7, Compartiment8, KennedyTunnel, LiefkensHoekTunnel]
 
+    oosterweelVerbinding = {'clockwise':list(), 'counterclockwise':list()}
+    oosterweelDataClockwise = list()
+    oosterweelDataCounterClockwise = list()
+
     # Morning hours
-    if option == "2":
+    if option == "2" or option == "2_O":
         # Morning values
         AntwerpSouth = Source("AntwerpSouth", 24.9583, 51.175)
         AntwerpEast = Source("AntwerpEast", 56.4083, 25.508)
@@ -57,7 +63,7 @@ def main(argv):
         timePeriod = 120
 
     # Evening hours
-    if option == "3" or option == "4":
+    if option == "3" or option == "4" or option == "3_O" or option == "4_O":
         # Evening values
         AntwerpSouth = Source("AntwerpSouth", 21.5416, 51.79167)
         AntwerpEast = Source("AntwerpEast", 57.1583, 21.058)
@@ -66,8 +72,9 @@ def main(argv):
         Beveren = Source("Beveren", 10.0667, 20.8833)
         AntwerpPort = Source("AntwerpPort", 20.0083, 8.8167)
         timePeriod = 120
-        if option == "4":
-            timePeriod = 200
+        if option == "4" or option == "4_O": timePeriod = 210
+
+
 
 
     # 1 timestep is a minute
@@ -106,6 +113,21 @@ def main(argv):
         Compartiment5.simulateCounterClockwise(AntwerpEast.getVehicles(False) + Compartiment4.getFlow(False, 0.124),
                                                Compartiment4)
 
+        # Oosterweel verbinding
+        if option == "1_O" or option == "2_O" or option == "3_O" or option == "4_O":
+            oosterweelVerbinding['clockwise'].extend(Compartiment1.oosterWeelVerbinding())
+            oosterweelVerbinding['counterclockwise'].extend(Compartiment5.oosterWeelVerbinding())
+            temporaryList = [veh for veh in oosterweelVerbinding['clockwise'] if veh < 5.56]
+            oosterweelVerbinding['clockwise'] = temporaryList
+            temporaryList = [veh for veh in oosterweelVerbinding['counterclockwise'] if veh < 5.56]
+            oosterweelVerbinding['counterclockwise'] = temporaryList
+            oosterweelVerbinding['clockwise'] = [veh + 1.67 for veh in oosterweelVerbinding['clockwise']]
+            oosterweelVerbinding['counterclockwise'] = [veh + 1.67 for veh in oosterweelVerbinding['counterclockwise']]
+            oosterweelDataClockwise.append(len(oosterweelVerbinding['clockwise']))
+            oosterweelDataCounterClockwise.append(len(oosterweelVerbinding['counterclockwise']))
+            if len(oosterweelVerbinding['clockwise']) >= 1698: print("Traffic congestion @ Oosterweel clockwise")
+            if len(oosterweelVerbinding['counterclockwise']) >= 1698: print("Traffic congestion @ Oosterweel counterclockwise")
+
         # Compartiment 6
         Compartiment6.simulateClockwise(AntwerpPort.getVehicles(True) + Compartiment7.getFlow(True, 0.033),
                                         Compartiment7)
@@ -127,6 +149,9 @@ def main(argv):
         Compartiment8.simulateCounterClockwise(LiefkensHoekTunnel.getFlow(False, 0), LiefkensHoekTunnel)
 
     iterateCompartiments(compartimentsList, time)
+    if option == "1_O" or option == "2_O" or option == "3_O" or option == "4_O":
+        outputToFile("OosterweelverbindingClockwise", oosterweelDataClockwise, time)
+        outputToFile("OosterweelverbindingCounterClockwise", oosterweelDataCounterClockwise, time)
 
 if __name__ == '__main__':
     main(sys.argv)

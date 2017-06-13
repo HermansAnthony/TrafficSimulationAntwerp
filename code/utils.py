@@ -70,6 +70,12 @@ class Compartiment:
         if clockwise: return (1 - ratio) * self.reachedNextCompartimentClockwise
         return (1 - ratio) * self.reachedNextCompartimentCounterClockwise
 
+    def oosterWeelVerbinding(self):
+        length = 0.33*len(self.capacityClockwise) + 0.33 * len(self.capacityCounterClockwise)
+        return [0] * int(length)
+
+
+
     def waitingVehicles(self, clockwise, vehicles):
         if clockwise:
             for i in range(0,int(vehicles)):
