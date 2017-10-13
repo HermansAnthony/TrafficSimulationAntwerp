@@ -1,7 +1,0 @@
-*.bbl
-__pycache__/*
-*.out
-*.aux
-*.bcf
-*.blg
-*.toc
